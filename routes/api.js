@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const Workout = require('../models/workout.js');
 
+
+// posts a new workout
 router.post('/workouts', (req, res) => {
   Workout.create({})
     .then((dbWorkout) => {
@@ -11,11 +13,11 @@ router.post('/workouts', (req, res) => {
     });
 });
 
+// adds new exercises to current workout
 router.put('/workouts/:id', ({ body, params }, res) => {
   Workout.findByIdAndUpdate(
     params.id,
     { $push: { exercises: body } },
-    // "runValidators" will ensure new exercises meet our schema requirements
     { new: true, runValidators: true }
   )
     .then((dbWorkout) => {
@@ -26,6 +28,7 @@ router.put('/workouts/:id', ({ body, params }, res) => {
     });
 });
 
+// gets the sum of exercise duration from workouts
 router.get('/workouts', (req, res) => {
   Workout.aggregate([
     {
@@ -44,6 +47,8 @@ router.get('/workouts', (req, res) => {
     });
 });
 
+
+// gets the sum of exercise duration from all workouts
 router.get('/workouts/range', (req, res) => {
   Workout.aggregate([
     {
@@ -65,6 +70,7 @@ router.get('/workouts/range', (req, res) => {
     });
 });
 
+// route deletes a workout
 router.delete('/workouts', ({ body }, res) => {
   Workout.findByIdAndDelete(body.id)
     .then(() => {

@@ -13,20 +13,6 @@ router.post('/workouts', (req, res) => {
     });
 });
 
-// adds new exercises to current workout
-router.put('/workouts/:id', ({ body, params }, res) => {
-  Workout.findByIdAndUpdate(
-    params.id,
-    { $push: { exercises: body } },
-    { new: true, runValidators: true }
-  )
-    .then((dbWorkout) => {
-      res.json(dbWorkout);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-});
 
 // gets the sum of exercise duration from workouts
 router.get('/workouts', (req, res) => {
@@ -46,6 +32,22 @@ router.get('/workouts', (req, res) => {
       res.json(err);
     });
 });
+
+// adds new exercises to current workout
+router.put('/workouts/:id', ({ body, params }, res) => {
+  Workout.findByIdAndUpdate(
+    params.id,
+    { $push: { exercises: body } },
+    { new: true, runValidators: true }
+  )
+    .then((dbWorkout) => {
+      res.json(dbWorkout);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
 
 
 // gets the sum of exercise duration from all workouts

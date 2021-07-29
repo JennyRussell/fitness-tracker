@@ -9,4 +9,7 @@ router.get("/stats", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/stats.html"));
 });
 
+// use /api
+router.use("/api", api);
+
 module.exports = router;

@@ -1,12 +1,12 @@
 const router = require('express').Router();
-const Workout = require('../models/workout.js');
+const Exercise = require('../models/exercise.js');
 
 
 // posts a new workout
-router.post('/workouts', (req, res) => {
-  Workout.create({})
-    .then((dbWorkout) => {
-      res.json(dbWorkout);
+router.post('/exercises', (req, res) => {
+  Exercise.create({})
+    .then((dbExercise) => {
+      res.json(dbExercise);
     })
     .catch((err) => {
       res.json(err);
@@ -15,8 +15,8 @@ router.post('/workouts', (req, res) => {
 
 
 // gets the sum of exercise duration from workouts
-router.get('/workouts', (req, res) => {
-  Workout.aggregate([
+router.get('/exercises', (req, res) => {
+  Exercise.aggregate([
     {
       $addFields: {
         totalDuration: {
@@ -25,8 +25,8 @@ router.get('/workouts', (req, res) => {
       },
     },
   ])
-    .then((dbWorkouts) => {
-      res.json(dbWorkouts);
+    .then((dbExercises) => {
+      res.json(dbExercises);
     })
     .catch((err) => {
       res.json(err);
@@ -34,14 +34,14 @@ router.get('/workouts', (req, res) => {
 });
 
 // adds new exercises to current workout
-router.put('/workouts/:id', ({ body, params }, res) => {
-  Workout.findByIdAndUpdate(
+router.put('/exercises/:id', ({ body, params }, res) => {
+  Exercise.findByIdAndUpdate(
     params.id,
     { $push: { exercises: body } },
     { new: true, runValidators: true }
   )
-    .then((dbWorkout) => {
-      res.json(dbWorkout);
+    .then((dbExercise) => {
+      res.json(dbExercise);
     })
     .catch((err) => {
       res.json(err);
@@ -52,7 +52,7 @@ router.put('/workouts/:id', ({ body, params }, res) => {
 
 // gets the sum of exercise duration from all workouts
 router.get('/workouts/range', (req, res) => {
-  Workout.aggregate([
+  Exercise.aggregate([
     {
       $addFields: {
         totalDuration: {
@@ -63,9 +63,9 @@ router.get('/workouts/range', (req, res) => {
   ])
     .sort({ _id: -1 })
     .limit(7)
-    .then((dbWorkouts) => {
-      console.log(dbWorkouts);
-      res.json(dbWorkouts);
+    .then((dbExercises) => {
+      console.log(dbExercises);
+      res.json(dbExercises);
     })
     .catch((err) => {
       res.json(err);
@@ -74,7 +74,7 @@ router.get('/workouts/range', (req, res) => {
 
 // route deletes a workout
 router.delete('/workouts', ({ body }, res) => {
-  Workout.findByIdAndDelete(body.id)
+  Exercise.findByIdAndDelete(body.id)
     .then(() => {
       res.json(true);
     })

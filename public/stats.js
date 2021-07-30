@@ -1,15 +1,15 @@
 function calculateTotalWeight(data) {
   const totals = [];
 
-  data.forEach((workout) => {
-    const workoutTotal = workout.exercises.reduce((total, { type, weight }) => {
+  data.forEach((exercise) => {
+    const exerciseTotal = exercise.exercises.reduce((total, { type, weight }) => {
       if (type === 'resistance') {
         return total + weight;
       }
       return total;
     }, 0);
 
-    totals.push(workoutTotal);
+    totals.push(exerciseTotal);
   });
 
   return totals;
@@ -39,7 +39,7 @@ function populateChart(data) {
       labels,
       datasets: [
         {
-          label: 'Workout Duration In Minutes',
+          label: 'Exercise Duration In Minutes',
           backgroundColor: 'red',
           borderColor: 'red',
           data: durations,
@@ -107,5 +107,5 @@ function populateChart(data) {
   });
 }
 
-// get all workout data from back-end
-API.getWorkoutsInRange().then(populateChart);
+// get all exercise data from back-end
+API.getExercisesInRange().then(populateChart);

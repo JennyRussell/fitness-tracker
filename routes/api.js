@@ -51,7 +51,7 @@ router.put('/exercises/:id', ({ body, params }, res) => {
 
 
 // gets the sum of exercise duration from all workouts
-router.get('/workouts/range', (req, res) => {
+router.get('/exercises/range', (req, res) => {
   Exercise.aggregate([
     {
       $addFields: {
@@ -73,7 +73,7 @@ router.get('/workouts/range', (req, res) => {
 });
 
 // route deletes a workout
-router.delete('/workouts', ({ body }, res) => {
+router.delete('/exercises', ({ body }, res) => {
   Exercise.findByIdAndDelete(body.id)
     .then(() => {
       res.json(true);
